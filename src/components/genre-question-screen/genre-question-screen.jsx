@@ -12,46 +12,48 @@ class GenreQuestionScreen extends PureComponent {
     };
   }
 
+  _getTrack(answer, i, userAnswers) {
+    const key = `${i}-${answer.src}`;
+    const id = `answer-${i}`;
+
+    const handleAnswerChange = (evt) => {
+      const value = evt.target.checked;
+
+      this.setState({
+        answers: [...userAnswers.slice(0, i), value, ...userAnswers.slice(i + 1)],
+      });
+    };
+
+    return (
+      <div key={key} className="track">
+        <button className="track__button track__button--play" type="button"/>
+        <div className="track__status">
+          <audio
+            src={answer.src}
+          />
+        </div>
+        <div className="game__answer">
+          <input className="game__input visually-hidden" type="checkbox" name="answer" value={id}
+            id={id}
+            checked={userAnswers[i]}
+            onChange={handleAnswerChange}
+          />
+          <label className="game__check" htmlFor={id}>Отметить</label>
+        </div>
+      </div>
+    );
+  }
+
+  _renderTracks(answers, userAnswers) {
+    return answers.map((answer, i) => this._getTrack(answer, i, userAnswers));
+  }
+
   _handleSubmit(onAnswer, question) {
     return (evt) => {
       evt.preventDefault();
 
       onAnswer(question, this.state.answers);
     };
-  }
-
-  _renderTracks(answers, userAnswers) {
-    return answers.map((answer, i) => {
-      const key = `${i}-${answer.src}`;
-      const id = `answer-${i}`;
-
-      const handleAnswerChange = (evt) => {
-        const value = evt.target.checked;
-
-        this.setState({
-          answers: [...userAnswers.slice(0, i), value, ...userAnswers.slice(i + 1)],
-        });
-      };
-
-      return (
-        <div key={key} className="track">
-          <button className="track__button track__button--play" type="button"/>
-          <div className="track__status">
-            <audio
-              src={answer.src}
-            />
-          </div>
-          <div className="game__answer">
-            <input className="game__input visually-hidden" type="checkbox" name="answer" value={id}
-              id={id}
-              checked={userAnswers[i]}
-              onChange={handleAnswerChange}
-            />
-            <label className="game__check" htmlFor={id}>Отметить</label>
-          </div>
-        </div>
-      );
-    });
   }
 
   render() {

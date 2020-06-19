@@ -12,7 +12,7 @@ const ArtistQuestionScreen = ({onAnswer, question}) => {
     transformOrigin: `center`
   };
 
-  const artists = answers.map((answer, i) => {
+  const getArtist = (answer, i) => {
     const id = `answer-${i}`;
 
     const handleAnswerChange = (evt) => {
@@ -32,7 +32,9 @@ const ArtistQuestionScreen = ({onAnswer, question}) => {
         </label>
       </div>
     );
-  });
+  };
+
+  const artists = answers.map(getArtist);
 
   return (
     <section className="game game--artist">

@@ -6,6 +6,34 @@ import {GameType} from '../../common/consts';
 const ArtistQuestionScreen = ({onAnswer, question}) => {
   const {answers, song} = question;
 
+  const timerStyle = {
+    filter: `url(#blur)`,
+    transform: `rotate(-90deg) scaleY(-1)`,
+    transformOrigin: `center`
+  };
+
+  const artists = answers.map((answer, i) => {
+    const id = `answer-${i}`;
+
+    const handleAnswerChange = (evt) => {
+      evt.preventDefault();
+      onAnswer(question, answer);
+    };
+
+    return (
+      <div key={answer.artist} className="artist">
+        <input className="artist__input visually-hidden" type="radio" name="answer" value={id}
+          id={id}
+          onChange={handleAnswerChange}
+        />
+        <label className="artist__name" htmlFor={id}>
+          <img className="artist__picture" src={answer.picture} alt={answer.artist}/>
+          {answer.artist}
+        </label>
+      </div>
+    );
+  });
+
   return (
     <section className="game game--artist">
       <header className="game__header">
@@ -14,8 +42,7 @@ const ArtistQuestionScreen = ({onAnswer, question}) => {
           <img className="game__logo" src="img/melody-logo-ginger.png" alt="Угадай мелодию" />
         </a>
         <svg xmlns="http://www.w3.org/2000/svg" className="timer" viewBox="0 0 780 780">
-          <circle className="timer__line" cx="390" cy="390" r="370"
-            style={{filter: `url(#blur)`, transform: `rotate(-90deg) scaleY(-1)`, transformOrigin: `center`}}/>
+          <circle className="timer__line" cx="390" cy="390" r="370" style={timerStyle}/>
         </svg>
         <div className="game__mistakes">
           <div className="wrong" />
@@ -36,21 +63,7 @@ const ArtistQuestionScreen = ({onAnswer, question}) => {
           </div>
         </div>
         <form className="game__artist">
-          {answers.map((answer, i) => (
-            <div key={answer.artist} className="artist">
-              <input className="artist__input visually-hidden" type="radio" name="answer" value={`answer-${i}`} id={`answer-${i}`}
-                onChange={(evt) => {
-                  evt.preventDefault();
-
-                  onAnswer(question, answer);
-                }}
-              />
-              <label className="artist__name" htmlFor={`answer-${i}`}>
-                <img className="artist__picture" src={answer.picture} alt={answer.artist} />
-                {answer.artist}
-              </label>
-            </div>
-          ))}
+          {artists}
         </form>
       </section>
     </section>

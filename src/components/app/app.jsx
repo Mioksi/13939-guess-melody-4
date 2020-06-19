@@ -5,15 +5,30 @@ import PropTypes from 'prop-types';
 import ArtistQuestionScreen from '../artist-question-screen/artist-question-screen.jsx';
 import GenreQuestionScreen from '../genre-question-screen/genre-question-screen.jsx';
 import WelcomeScreen from '../welcome-screen/welcome-screen.jsx';
-import {GameType} from '../../common/consts';
+import {GameType, START_STEP} from '../../common/consts';
 
 class App extends PureComponent {
   constructor(props) {
     super(props);
 
     this.state = {
-      step: -1,
+      step: START_STEP,
     };
+
+    this._handleWelcomeButtonClick = this._handleWelcomeButtonClick.bind(this);
+    this._handleScreenChange = this._handleScreenChange.bind(this);
+  }
+
+  _handleWelcomeButtonClick() {
+    this.setState({
+      step: 0,
+    });
+  }
+
+  _handleScreenChange() {
+    this.setState((prevState) => ({
+      step: prevState.step + 1,
+    }));
   }
 
   _renderGameScreen() {
@@ -25,11 +40,7 @@ class App extends PureComponent {
       return (
         <WelcomeScreen
           errorsCount={errorsCount}
-          onWelcomeButtonClick={() => {
-            this.setState({
-              step: 0,
-            });
-          }}
+          onWelcomeButtonClick={this._handleWelcomeButtonClick}
         />
       );
     }
@@ -40,22 +51,14 @@ class App extends PureComponent {
           return (
             <ArtistQuestionScreen
               question={question}
-              onAnswer={() => {
-                this.setState((prevState) => ({
-                  step: prevState.step + 1,
-                }));
-              }}
+              onAnswer={this._handleScreenChange}
             />
           );
         case GameType.GENRE:
           return (
             <GenreQuestionScreen
               question={question}
-              onAnswer={() => {
-                this.setState((prevState) => ({
-                  step: prevState.step + 1,
-                }));
-              }}
+              onAnswer={this._handleScreenChange}
             />
           );
       }

@@ -1,7 +1,6 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 
-import AudioPlayer from '../audio-player/audio-player.jsx';
 import {GameType} from '../../common/consts';
 
 class GenreQuestionScreen extends PureComponent {
@@ -14,21 +13,13 @@ class GenreQuestionScreen extends PureComponent {
     };
   }
 
-  _getTrack(answer, i, userAnswers, activePlayer) {
+  _getTrack(answer, i, userAnswers, renderPlayer) {
     const key = `${i}-${answer.src}`;
     const id = `answer-${i}`;
 
     return (
       <div key={key} className="track">
-        <AudioPlayer
-          onPlayButtonClick={() => {
-            this.setState({
-              activePlayer: activePlayer === i ? -1 : i,
-            });
-          }}
-          isPlaying={i === activePlayer}
-          src={answer.src}
-        />
+        {renderPlayer(answer.src, i)}
         <div className="game__answer">
           <input className="game__input visually-hidden" type="checkbox" name="answer" value={id}
             id={id}
@@ -41,8 +32,8 @@ class GenreQuestionScreen extends PureComponent {
     );
   }
 
-  _renderTracks(answers, userAnswers, activePlayer) {
-    return answers.map((answer, i) => this._getTrack(answer, i, userAnswers, activePlayer));
+  _renderTracks(answers, userAnswers, renderPlayer) {
+    return answers.map((answer, i) => this._getTrack(answer, i, userAnswers, renderPlayer));
   }
 
   _handleAnswerChange(userAnswers, i) {
@@ -64,8 +55,8 @@ class GenreQuestionScreen extends PureComponent {
   }
 
   render() {
-    const {onAnswer, question} = this.props;
-    const {answers: userAnswers, activePlayer} = this.state;
+    const {onAnswer, question, renderPlayer} = this.props;
+    const {answers: userAnswers} = this.state;
     const {
       answers,
       genre,
@@ -78,7 +69,7 @@ class GenreQuestionScreen extends PureComponent {
           className="game__tracks"
           onSubmit={this._handleSubmit(onAnswer, question)}
         >
-          {this._renderTracks(answers, userAnswers, activePlayer)}
+          {this._renderTracks(answers, userAnswers, renderPlayer)}
           <button className="game__submit button" type="submit">Ответить</button>
         </form>
       </section>
@@ -96,6 +87,7 @@ GenreQuestionScreen.propTypes = {
     genre: PropTypes.string.isRequired,
     type: PropTypes.oneOf([GameType.ARTIST, GameType.GENRE]).isRequired,
   }).isRequired,
+  renderPlayer: PropTypes.func.isRequired,
 };
 
 

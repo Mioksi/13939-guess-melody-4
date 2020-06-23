@@ -3,6 +3,12 @@ import PropTypes from 'prop-types';
 
 import {GameType} from '../../common/consts';
 
+const timerStyle = {
+  filter: `url(#blur)`,
+  transform: `rotate(-90deg) scaleY(-1)`,
+  transformOrigin: `center`,
+};
+
 class GenreQuestionScreen extends PureComponent {
   constructor(props) {
     super(props);
@@ -16,14 +22,6 @@ class GenreQuestionScreen extends PureComponent {
     const key = `${i}-${answer.src}`;
     const id = `answer-${i}`;
 
-    const handleAnswerChange = (evt) => {
-      const value = evt.target.checked;
-
-      this.setState({
-        answers: [...userAnswers.slice(0, i), value, ...userAnswers.slice(i + 1)],
-      });
-    };
-
     return (
       <div key={key} className="track">
         <button className="track__button track__button--play" type="button"/>
@@ -36,7 +34,7 @@ class GenreQuestionScreen extends PureComponent {
           <input className="game__input visually-hidden" type="checkbox" name="answer" value={id}
             id={id}
             checked={userAnswers[i]}
-            onChange={handleAnswerChange}
+            onChange={this._handleAnswerChange(userAnswers, i)}
           />
           <label className="game__check" htmlFor={id}>Отметить</label>
         </div>
@@ -46,6 +44,16 @@ class GenreQuestionScreen extends PureComponent {
 
   _renderTracks(answers, userAnswers) {
     return answers.map((answer, i) => this._getTrack(answer, i, userAnswers));
+  }
+
+  _handleAnswerChange(userAnswers, i) {
+    return (evt) => {
+      const value = evt.target.checked;
+
+      this.setState({
+        answers: [...userAnswers.slice(0, i), value, ...userAnswers.slice(i + 1)],
+      });
+    };
   }
 
   _handleSubmit(onAnswer, question) {
@@ -63,12 +71,6 @@ class GenreQuestionScreen extends PureComponent {
       answers,
       genre,
     } = question;
-
-    const timerStyle = {
-      filter: `url(#blur)`,
-      transform: `rotate(-90deg) scaleY(-1)`,
-      transformOrigin: `center`,
-    };
 
     return (
       <section className="game game--genre">

@@ -1,7 +1,7 @@
-import React from "react";
-import renderer from "react-test-renderer";
+import React from 'react';
+import renderer from 'react-test-renderer';
 
-import WelcomeScreen from "./welcome-screen.jsx";
+import WelcomeScreen from './welcome-screen.jsx';
 import {Settings} from '../../common/consts';
 
 it(`Should WelcomeScreen render correctly`, () => {

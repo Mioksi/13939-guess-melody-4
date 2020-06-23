@@ -3,28 +3,30 @@ import PropTypes from 'prop-types';
 
 import {GameType} from '../../common/consts';
 
+const timerStyle = {
+  filter: `url(#blur)`,
+  transform: `rotate(-90deg) scaleY(-1)`,
+  transformOrigin: `center`
+};
+
 const ArtistQuestionScreen = ({onAnswer, question}) => {
   const {answers, song} = question;
 
-  const timerStyle = {
-    filter: `url(#blur)`,
-    transform: `rotate(-90deg) scaleY(-1)`,
-    transformOrigin: `center`
+  const handleAnswerChange = (answer) => {
+    return (evt) => {
+      evt.preventDefault();
+      onAnswer(question, answer);
+    };
   };
 
   const getArtist = (answer, i) => {
     const id = `answer-${i}`;
 
-    const handleAnswerChange = (evt) => {
-      evt.preventDefault();
-      onAnswer(question, answer);
-    };
-
     return (
       <div key={answer.artist} className="artist">
         <input className="artist__input visually-hidden" type="radio" name="answer" value={id}
           id={id}
-          onChange={handleAnswerChange}
+          onChange={handleAnswerChange(answer)}
         />
         <label className="artist__name" htmlFor={id}>
           <img className="artist__picture" src={answer.picture} alt={answer.artist}/>
@@ -34,7 +36,7 @@ const ArtistQuestionScreen = ({onAnswer, question}) => {
     );
   };
 
-  const artists = answers.map(getArtist);
+  const renderArtists = () => answers.map(getArtist);
 
   return (
     <section className="game game--artist">
@@ -65,7 +67,7 @@ const ArtistQuestionScreen = ({onAnswer, question}) => {
           </div>
         </div>
         <form className="game__artist">
-          {artists}
+          {renderArtists()}
         </form>
       </section>
     </section>

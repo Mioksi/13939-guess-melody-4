@@ -1,27 +1,28 @@
-import React from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 
 import AudioPlayer from '../audio-player/audio-player.jsx';
 import {GameType} from '../../common/consts';
 
-const ArtistQuestionScreen = ({onAnswer, question}) => {
-  const {answers, song} = question;
+class ArtistQuestionScreen extends PureComponent {
+  constructor(props) {
+    super(props);
 
-  const handleAnswerChange = (answer) => {
-    return (evt) => {
-      evt.preventDefault();
-      onAnswer(question, answer);
+    this.state = {
+      isPlaying: true,
     };
-  };
 
-  const getArtist = (answer, i) => {
+    this._handlePlayButtonClick = this._handlePlayButtonClick.bind(this);
+  }
+
+  _getArtist(answer, i, onAnswer, question) {
     const id = `answer-${i}`;
 
     return (
       <div key={answer.artist} className="artist">
         <input className="artist__input visually-hidden" type="radio" name="answer" value={id}
           id={id}
-          onChange={handleAnswerChange(answer)}
+          onChange={this._handleAnswerChange(answer, onAnswer, question)}
         />
         <label className="artist__name" htmlFor={id}>
           <img className="artist__picture" src={answer.picture} alt={answer.artist}/>
@@ -29,27 +30,52 @@ const ArtistQuestionScreen = ({onAnswer, question}) => {
         </label>
       </div>
     );
-  };
+  }
 
-  const renderArtists = () => answers.map(getArtist);
+  _renderArtists(answers, onAnswer, question) {
+    return answers.map((answer, i) => this._getArtist(answer, i, onAnswer, question));
+  }
 
-  return (
-    <section className="game__screen">
-      <h2 className="game__title">Кто исполняет эту песню?</h2>
-      <div className="game__track">
-        <div className="track">
-          <AudioPlayer
-            isPlaying={true}
-            src={song.src}
-          />
+  _handleAnswerChange(answer, onAnswer, question) {
+    return (evt) => {
+      evt.preventDefault();
+      onAnswer(question, answer);
+    };
+  }
+
+  _handlePlayButtonClick() {
+    const {isPlaying} = this.state;
+
+    this.setState({isPlaying: !isPlaying});
+  }
+
+  render() {
+    const {isPlaying} = this.state;
+    const {onAnswer, question} = this.props;
+    const {
+      answers,
+      song,
+    } = question;
+
+    return (
+      <section className="game__screen">
+        <h2 className="game__title">Кто исполняет эту песню?</h2>
+        <div className="game__track">
+          <div className="track">
+            <AudioPlayer
+              isPlaying={isPlaying}
+              src={song.src}
+              onPlayButtonClick={this._handlePlayButtonClick}
+            />
+          </div>
         </div>
-      </div>
-      <form className="game__artist">
-        {renderArtists()}
-      </form>
-    </section>
-  );
-};
+        <form className="game__artist">
+          {this._renderArtists(answers, onAnswer, question)}
+        </form>
+      </section>
+    );
+  }
+}
 
 ArtistQuestionScreen.propTypes = {
   onAnswer: PropTypes.func.isRequired,

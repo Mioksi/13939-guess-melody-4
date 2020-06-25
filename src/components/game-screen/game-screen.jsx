@@ -10,8 +10,10 @@ const timerStyle = {
 };
 
 const GameScreen = ({type, children}) => {
+  const gameType = `game game--${type}`;
+
   return (
-    <section className={`game game--${type}`}>
+    <section className={gameType}>
       <header className="game__header">
         <a className="game__back" href="#">
           <span className="visually-hidden">Сыграть ещё раз</span>

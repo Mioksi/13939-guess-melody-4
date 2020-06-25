@@ -12,57 +12,93 @@ export default class AudioPlayer extends PureComponent {
       isLoading: true,
       isPlaying: props.isPlaying,
     };
+
+    this._handlePlayButtonClick = this._handlePlayButtonClick.bind(this);
   }
 
   componentDidMount() {
     const {src} = this.props;
     const audio = this._audioRef.current;
 
-    audio.src = src;
+    if (audio) {
+      audio.src = src;
 
-    audio.oncanplaythrough = () => this.setState({
-      isLoading: false,
-    });
-
-    audio.onplay = () => {
-      this.setState({
-        isPlaying: true,
-      });
-    };
-
-    audio.onpause = () => this.setState({
-      isPlaying: false,
-    });
-
-    audio.ontimeupdate = () => this.setState({
-      progress: audio.currentTime
-    });
+      audio.oncanplaythrough = () => this._handleCanPlayThrough();
+      audio.onplay = () => this._handlePlay();
+      audio.onpause = () => this._handlePause();
+      audio.ontimeupdate = () => this._handleTimeUpdale();
+    }
   }
 
   componentWillUnmount() {
     const audio = this._audioRef.current;
 
-    audio.oncanplaythrough = null;
-    audio.onplay = null;
-    audio.onpause = null;
-    audio.ontimeupdate = null;
-    audio.src = ``;
+    if (audio) {
+      audio.oncanplaythrough = null;
+      audio.onplay = null;
+      audio.onpause = null;
+      audio.ontimeupdate = null;
+      audio.src = ``;
+    }
+  }
+
+  componentDidUpdate() {
+    const audio = this._audioRef.current;
+
+    if (audio) {
+      if (this.props.isPlaying) {
+        audio.play();
+      } else {
+        audio.pause();
+      }
+    }
+  }
+
+  _handleCanPlayThrough() {
+    this.setState({
+      isLoading: false,
+    });
+  }
+
+  _handlePlay() {
+    this.setState({
+      isPlaying: true,
+    });
+  }
+
+  _handlePause() {
+    this.setState({
+      isPlaying: false,
+    });
+  }
+
+  _handleTimeUpdale() {
+    const audio = this._audioRef.current;
+
+    this.setState({
+      progress: audio.currentTime,
+    });
+  }
+
+  _handlePlayButtonClick() {
+    const {onPlayButtonClick} = this.props;
+
+    this.setState({isPlaying: !this.state.isPlaying});
+
+    onPlayButtonClick();
   }
 
   render() {
     const {isLoading, isPlaying} = this.state;
-    const {onPlayButtonClick} = this.props;
+    const trackButton = `track__button track__button--${isPlaying ? `pause` : `play`}`;
 
     return (
       <>
         <button
-          className={`track__button track__button--${isPlaying ? `pause` : `play`}`}
+          className={trackButton}
           type="button"
           disabled={isLoading}
-          onClick={() => {
-            this.setState({isPlaying: !this.state.isPlaying});
-            onPlayButtonClick();
-          }}
+          onClick={this._handlePlayButtonClick}
         />
         <div className="track__status">
           <audio
@@ -71,16 +107,6 @@ export default class AudioPlayer extends PureComponent {
         </div>
       </>
     );
-  }
-
-  componentDidUpdate() {
-    const audio = this._audioRef.current;
-
-    if (this.props.isPlaying) {
-      audio.play();
-    } else {
-      audio.pause();
-    }
   }
 }
 

@@ -11,9 +11,14 @@ class GenreQuestionScreen extends PureComponent {
       activePlayer: 0,
       answers: [false, false, false, false],
     };
+
+    this._getTrack = this._getTrack.bind(this);
+    this._handleSubmit = this._handleSubmit.bind(this);
   }
 
-  _getTrack(answer, i, userAnswers, renderPlayer) {
+  _getTrack(answer, i) {
+    const {renderPlayer} = this.props;
+    const {answers: userAnswers} = this.state;
     const key = `${i}-${answer.src}`;
     const id = `answer-${i}`;
 
@@ -32,8 +37,8 @@ class GenreQuestionScreen extends PureComponent {
     );
   }
 
-  _renderTracks(answers, userAnswers, renderPlayer) {
-    return answers.map((answer, i) => this._getTrack(answer, i, userAnswers, renderPlayer));
+  _renderTracks(answers) {
+    return answers.map(this._getTrack);
   }
 
   _handleAnswerChange(userAnswers, i) {
@@ -46,30 +51,25 @@ class GenreQuestionScreen extends PureComponent {
     };
   }
 
-  _handleSubmit(onAnswer, question) {
-    return (evt) => {
-      evt.preventDefault();
+  _handleSubmit(evt) {
+    const {onAnswer, question} = this.props;
 
-      onAnswer(question, this.state.answers);
-    };
+    evt.preventDefault();
+    onAnswer(question, this.state.answers);
   }
 
   render() {
-    const {onAnswer, question, renderPlayer} = this.props;
-    const {answers: userAnswers} = this.state;
-    const {
-      answers,
-      genre,
-    } = question;
+    const {question} = this.props;
+    const {answers, genre} = question;
 
     return (
       <section className="game__screen">
         <h2 className="game__title">Выберите {genre} треки</h2>
         <form
           className="game__tracks"
-          onSubmit={this._handleSubmit(onAnswer, question)}
+          onSubmit={this._handleSubmit}
         >
-          {this._renderTracks(answers, userAnswers, renderPlayer)}
+          {this._renderTracks(answers)}
           <button className="game__submit button" type="submit">Ответить</button>
         </form>
       </section>

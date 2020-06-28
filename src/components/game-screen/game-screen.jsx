@@ -1,6 +1,8 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
+import Mistakes from '../mistakes/mistakes.jsx';
 import {GameType} from '../../common/consts';
 
 const timerStyle = {
@@ -9,7 +11,7 @@ const timerStyle = {
   transformOrigin: `center`
 };
 
-const GameScreen = ({type, children}) => {
+const GameScreen = ({type, children, mistakes}) => {
   const gameType = `game game--${type}`;
 
   return (
@@ -23,9 +25,9 @@ const GameScreen = ({type, children}) => {
           <circle className="timer__line" cx="390" cy="390" r="370" style={timerStyle}/>
         </svg>
         <div className="game__mistakes">
-          <div className="wrong" />
-          <div className="wrong" />
-          <div className="wrong" />
+          <Mistakes
+            count={mistakes}
+          />
         </div>
       </header>
       {children}
@@ -39,6 +41,12 @@ GameScreen.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
   ]).isRequired,
+  mistakes: PropTypes.number.isRequired,
 };
 
-export default GameScreen;
+const mapStateToProps = (state) => ({
+  mistakes: state.mistakes,
+});
+
+export {GameScreen};
+export default connect(mapStateToProps)(GameScreen);

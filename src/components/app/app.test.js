@@ -1,8 +1,12 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
+import {Provider} from 'react-redux';
+import configureStore from 'redux-mock-store';
 
 import {App} from './app.jsx';
 import {Settings} from '../../common/consts';
+
+const mockStore = configureStore([]);
 
 const questions = [
   {
@@ -42,32 +46,47 @@ const questions = [
 
 describe(`Render App`, () => {
   it(`Render WelcomeScreen`, () => {
+    const store = mockStore({
+      mistakes: 0,
+    });
+
     const tree = renderer
-      .create(<App
-        errorsCount={Settings.ERRORS_COUNT}
-        questions={questions}
-        onUserAnswer={() => {}}
-        onWelcomeButtonClick={() => {}}
-        step={-1}
-      />)
+      .create(
+          <Provider store={store}>
+            <App
+              errorsCount={Settings.ERRORS_COUNT}
+              questions={questions}
+              onUserAnswer={() => {}}
+              onWelcomeButtonClick={() => {}}
+              step={-1}
+            />
+          </Provider>
+      )
       .toJSON();
 
     expect(tree).toMatchSnapshot();
   });
 
   it(`Render GenreQuestionScreen`, () => {
+    const store = mockStore({
+      mistakes: 3,
+    });
+
     const tree = renderer
-      .create(<App
-        errorsCount={Settings.ERRORS_COUNT}
-        questions={questions}
-        onUserAnswer={() => {}}
-        onWelcomeButtonClick={() => {}}
-        step={0}
-      />, {
-        createNodeMock: () => {
-          return {};
-        }
-      })
+      .create(
+          <Provider store={store}>
+            <App
+              errorsCount={Settings.ERRORS_COUNT}
+              questions={questions}
+              onUserAnswer={() => {}}
+              onWelcomeButtonClick={() => {}}
+              step={1}
+            />
+          </Provider>, {
+            createNodeMock: () => {
+              return {};
+            }
+          })
       .toJSON();
 
     expect(tree).toMatchSnapshot();

@@ -54,7 +54,7 @@ describe(`Render App`, () => {
       .create(
           <Provider store={store}>
             <App
-              errorsCount={Settings.ERRORS_COUNT}
+              maxMistakes={Settings.ERRORS_COUNT}
               questions={questions}
               onUserAnswer={() => {}}
               onWelcomeButtonClick={() => {}}
@@ -76,7 +76,7 @@ describe(`Render App`, () => {
       .create(
           <Provider store={store}>
             <App
-              errorsCount={Settings.ERRORS_COUNT}
+              maxMistakes={Settings.ERRORS_COUNT}
               questions={questions}
               onUserAnswer={() => {}}
               onWelcomeButtonClick={() => {}}
@@ -93,18 +93,25 @@ describe(`Render App`, () => {
   });
 
   it(`Render ArtistQuestionScreen`, () => {
+    const store = mockStore({
+      mistakes: 3,
+    });
+
     const tree = renderer
-      .create(<App
-        errorsCount={Settings.ERRORS_COUNT}
-        questions={questions}
-        onUserAnswer={() => {}}
-        onWelcomeButtonClick={() => {}}
-        step={1}
-      />, {
-        createNodeMock: () => {
-          return {};
-        }
-      })
+      .create(
+          <Provider store={store}>
+            <App
+              maxMistakes={Settings.ERRORS_COUNT}
+              questions={questions}
+              onUserAnswer={() => {}}
+              onWelcomeButtonClick={() => {}}
+              step={1}
+            />
+          </Provider>, {
+            createNodeMock: () => {
+              return {};
+            }
+          })
       .toJSON();
 
     expect(tree).toMatchSnapshot();

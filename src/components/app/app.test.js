@@ -54,8 +54,10 @@ describe(`Render App`, () => {
       .create(
           <Provider store={store}>
             <App
+              mistakes={0}
               maxMistakes={Settings.ERRORS_COUNT}
               questions={questions}
+              resetGame={() => {}}
               onUserAnswer={() => {}}
               onWelcomeButtonClick={() => {}}
               step={-1}
@@ -76,8 +78,10 @@ describe(`Render App`, () => {
       .create(
           <Provider store={store}>
             <App
+              mistakes={0}
               maxMistakes={Settings.ERRORS_COUNT}
               questions={questions}
+              resetGame={() => {}}
               onUserAnswer={() => {}}
               onWelcomeButtonClick={() => {}}
               step={1}
@@ -101,8 +105,10 @@ describe(`Render App`, () => {
       .create(
           <Provider store={store}>
             <App
+              mistakes={0}
               maxMistakes={Settings.ERRORS_COUNT}
               questions={questions}
+              resetGame={() => {}}
               onUserAnswer={() => {}}
               onWelcomeButtonClick={() => {}}
               step={1}

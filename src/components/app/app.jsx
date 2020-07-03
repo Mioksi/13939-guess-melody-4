@@ -40,15 +40,17 @@ class App extends PureComponent {
 
   _renderGameScreen() {
     const {
+      mistakes,
       maxMistakes,
       questions,
       onUserAnswer,
       onWelcomeButtonClick,
       step,
+      resetGame,
     } = this.props;
     const question = questions[step];
 
-    if (step === -1 || step >= questions.length) {
+    if (step === START_STEP || step >= questions.length) {
       return (
         <WelcomeScreen
           errorsCount={maxMistakes}
@@ -82,6 +84,15 @@ class App extends PureComponent {
             </GameScreen>
           );
       }
+    }
+
+    if (mistakes >= 2) {
+      return (
+        <WelcomeScreen
+          onWelcomeButtonClick={resetGame}
+          errorsCount={maxMistakes}
+        />
+      );
     }
 
     return null;
@@ -120,10 +131,13 @@ App.propTypes = {
   onUserAnswer: PropTypes.func.isRequired,
   onWelcomeButtonClick: PropTypes.func.isRequired,
   step: PropTypes.number.isRequired,
+  mistakes: PropTypes.number.isRequired,
+  resetGame: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   step: state.step,
+  mistakes: state.mistakes,
   maxMistakes: state.maxMistakes,
   questions: state.questions,
 });
@@ -135,6 +149,9 @@ const mapDispatchToProps = (dispatch) => ({
   onUserAnswer(question, answer) {
     dispatch(ActionCreator.incrementMistake(question, answer));
     dispatch(ActionCreator.incrementStep());
+  },
+  resetGame() {
+    dispatch(ActionCreator.resetGame());
   },
 });
 

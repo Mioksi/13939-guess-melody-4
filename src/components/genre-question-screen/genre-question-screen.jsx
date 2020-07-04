@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 
+import GenreQuestionItem from '../genre-question-item/genre-question-item.jsx';
 import {GameType} from '../../common/consts';
 
 class GenreQuestionScreen extends PureComponent {
@@ -14,20 +15,16 @@ class GenreQuestionScreen extends PureComponent {
   _getTrack(answer, i) {
     const {renderPlayer, userAnswers, onChange} = this.props;
     const key = `${i}-${answer.src}`;
-    const id = `answer-${i}`;
 
     return (
-      <div key={key} className="track">
-        {renderPlayer(answer.src, i)}
-        <div className="game__answer">
-          <input className="game__input visually-hidden" type="checkbox" name="answer" value={id}
-            id={id}
-            checked={userAnswers[i]}
-            onChange={onChange}
-          />
-          <label className="game__check" htmlFor={id}>Отметить</label>
-        </div>
-      </div>
+      <GenreQuestionItem
+        answer={answer}
+        id={i}
+        key={key}
+        onChange={onChange}
+        renderPlayer={renderPlayer}
+        userAnswer={userAnswers[i]}
+      />
     );
   }
 

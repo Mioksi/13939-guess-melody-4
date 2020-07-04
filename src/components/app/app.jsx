@@ -9,9 +9,10 @@ import GameScreen from '../game-screen/game-screen.jsx';
 import GenreQuestionScreen from '../genre-question-screen/genre-question-screen.jsx';
 import WelcomeScreen from '../welcome-screen/welcome-screen.jsx';
 import withActivePlayer from '../../hocs/with-active-player/with-active-player.js';
+import withUserAnswer from '../../hocs/with-user-answer/with-user-answer.js';
 import {GameType, START_STEP} from '../../common/consts';
 
-const GenreQuestionScreenWrapped = withActivePlayer(GenreQuestionScreen);
+const GenreQuestionScreenWrapped = withActivePlayer(withUserAnswer(GenreQuestionScreen));
 const ArtistQuestionScreenWrapped = withActivePlayer(ArtistQuestionScreen);
 
 class App extends PureComponent {

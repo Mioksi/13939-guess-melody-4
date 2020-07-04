@@ -7,18 +7,12 @@ class GenreQuestionScreen extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.state = {
-      activePlayer: 0,
-      answers: [false, false, false, false],
-    };
-
     this._getTrack = this._getTrack.bind(this);
     this._handleSubmit = this._handleSubmit.bind(this);
   }
 
   _getTrack(answer, i) {
-    const {renderPlayer} = this.props;
-    const {answers: userAnswers} = this.state;
+    const {renderPlayer, userAnswers, onChange} = this.props;
     const key = `${i}-${answer.src}`;
     const id = `answer-${i}`;
 
@@ -29,7 +23,7 @@ class GenreQuestionScreen extends PureComponent {
           <input className="game__input visually-hidden" type="checkbox" name="answer" value={id}
             id={id}
             checked={userAnswers[i]}
-            onChange={this._handleAnswerChange(userAnswers, i)}
+            onChange={onChange}
           />
           <label className="game__check" htmlFor={id}>Отметить</label>
         </div>
@@ -41,21 +35,11 @@ class GenreQuestionScreen extends PureComponent {
     return answers.map(this._getTrack);
   }
 
-  _handleAnswerChange(userAnswers, i) {
-    return (evt) => {
-      const value = evt.target.checked;
-
-      this.setState({
-        answers: [...userAnswers.slice(0, i), value, ...userAnswers.slice(i + 1)],
-      });
-    };
-  }
-
   _handleSubmit(evt) {
-    const {onAnswer, question} = this.props;
+    const {onAnswer} = this.props;
 
     evt.preventDefault();
-    onAnswer(question, this.state.answers);
+    onAnswer();
   }
 
   render() {
@@ -79,6 +63,7 @@ class GenreQuestionScreen extends PureComponent {
 
 GenreQuestionScreen.propTypes = {
   onAnswer: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
   question: PropTypes.shape({
     answers: PropTypes.arrayOf(PropTypes.shape({
       src: PropTypes.string.isRequired,
@@ -88,6 +73,7 @@ GenreQuestionScreen.propTypes = {
     type: PropTypes.oneOf([GameType.ARTIST, GameType.GENRE]).isRequired,
   }).isRequired,
   renderPlayer: PropTypes.func.isRequired,
+  userAnswers: PropTypes.arrayOf(PropTypes.bool).isRequired,
 };
 
 

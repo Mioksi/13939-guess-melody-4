@@ -7,12 +7,15 @@ import PropTypes from 'prop-types';
 import ArtistQuestionScreen from '../artist-question-screen/artist-question-screen.jsx';
 import GameScreen from '../game-screen/game-screen.jsx';
 import GenreQuestionScreen from '../genre-question-screen/genre-question-screen.jsx';
+import GameOverScreen from '../game-over-screen/game-over-screen.jsx';
+import WinScreen from '../win-screen/win-screen.jsx';
 import WelcomeScreen from '../welcome-screen/welcome-screen.jsx';
-import withAudioPlayer from '../../hocs/with-audio-player/with-audio-player';
+import withActivePlayer from '../../hocs/with-active-player/with-active-player.js';
+import withUserAnswer from '../../hocs/with-user-answer/with-user-answer.js';
 import {GameType, START_STEP} from '../../common/consts';
 
-const GenreQuestionScreenWrapped = withAudioPlayer(GenreQuestionScreen);
-const ArtistQuestionScreenWrapped = withAudioPlayer(ArtistQuestionScreen);
+const GenreQuestionScreenWrapped = withActivePlayer(withUserAnswer(GenreQuestionScreen));
+const ArtistQuestionScreenWrapped = withActivePlayer(ArtistQuestionScreen);
 
 class App extends PureComponent {
   constructor(props) {
@@ -50,11 +53,29 @@ class App extends PureComponent {
     } = this.props;
     const question = questions[step];
 
-    if (step === START_STEP || step >= questions.length) {
+    if (step === START_STEP) {
       return (
         <WelcomeScreen
           errorsCount={maxMistakes}
           onWelcomeButtonClick={onWelcomeButtonClick}
+        />
+      );
+    }
+
+    if (mistakes >= maxMistakes) {
+      return (
+        <GameOverScreen
+          onReplayButtonClick={resetGame}
+        />
+      );
+    }
+
+    if (step >= questions.length) {
+      return (
+        <WinScreen
+          questionsCount={questions.length}
+          mistakesCount={mistakes}
+          onReplayButtonClick={resetGame}
         />
       );
     }
@@ -84,15 +105,6 @@ class App extends PureComponent {
             </GameScreen>
           );
       }
-    }
-
-    if (mistakes >= 2) {
-      return (
-        <WelcomeScreen
-          onWelcomeButtonClick={resetGame}
-          errorsCount={maxMistakes}
-        />
-      );
     }
 
     return null;

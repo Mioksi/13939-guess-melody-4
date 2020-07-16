@@ -1,12 +1,10 @@
-import {extend} from './common/utils';
-import {GameType} from './common/consts';
-import questions from './mocks/questions';
+import {extend} from '../../common/utils';
+import {GameType} from '../../common/consts';
 
 const initialState = {
   mistakes: 0,
   maxMistakes: 3,
   step: -1,
-  questions,
 };
 
 const ActionType = {
@@ -77,6 +75,5 @@ const reducer = (state = initialState, action) => {
 
   return state;
 };
-
 
 export {reducer, ActionType, ActionCreator};

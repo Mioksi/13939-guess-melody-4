@@ -1,8 +1,11 @@
 import React, {PureComponent} from 'react';
 import {Switch, Route, BrowserRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {ActionCreator} from '../../reducer.js';
+import {ActionCreator} from '../../reducer/game/game';
 import PropTypes from 'prop-types';
+
+import {getStep, getMistakes, getMaxMistakes} from '../../reducer/game/selectors';
+import {getQuestions} from '../../reducer/data/selectors.js';
 
 import ArtistQuestionScreen from '../artist-question-screen/artist-question-screen.jsx';
 import GameScreen from '../game-screen/game-screen.jsx';
@@ -10,8 +13,10 @@ import GenreQuestionScreen from '../genre-question-screen/genre-question-screen.
 import GameOverScreen from '../game-over-screen/game-over-screen.jsx';
 import WinScreen from '../win-screen/win-screen.jsx';
 import WelcomeScreen from '../welcome-screen/welcome-screen.jsx';
-import withActivePlayer from '../../hocs/with-active-player/with-active-player.js';
-import withUserAnswer from '../../hocs/with-user-answer/with-user-answer.js';
+
+import withActivePlayer from '../../hocs/with-active-player/with-active-player';
+import withUserAnswer from '../../hocs/with-user-answer/with-user-answer';
+
 import {GameType, START_STEP} from '../../common/consts';
 
 const GenreQuestionScreenWrapped = withActivePlayer(withUserAnswer(GenreQuestionScreen));
@@ -148,10 +153,10 @@ App.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  step: state.step,
-  mistakes: state.mistakes,
-  maxMistakes: state.maxMistakes,
-  questions: state.questions,
+  step: getStep(state),
+  maxMistakes: getMaxMistakes(state),
+  questions: getQuestions(state),
+  mistakes: getMistakes(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

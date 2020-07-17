@@ -5,7 +5,7 @@ import {ActionCreator} from '../../reducer/game/game';
 import PropTypes from 'prop-types';
 
 import {getStep, getMistakes, getMaxMistakes} from '../../reducer/game/selectors';
-import {getQuestions} from '../../reducer/data/selectors.js';
+import {getQuestions} from '../../reducer/data/selectors';
 
 import ArtistQuestionScreen from '../artist-question-screen/artist-question-screen.jsx';
 import GameScreen from '../game-screen/game-screen.jsx';
@@ -13,6 +13,7 @@ import GenreQuestionScreen from '../genre-question-screen/genre-question-screen.
 import GameOverScreen from '../game-over-screen/game-over-screen.jsx';
 import WinScreen from '../win-screen/win-screen.jsx';
 import WelcomeScreen from '../welcome-screen/welcome-screen.jsx';
+import AuthScreen from '../authorization-screen/auth-screen.jsx';
 
 import withActivePlayer from '../../hocs/with-active-player/with-active-player';
 import withUserAnswer from '../../hocs/with-user-answer/with-user-answer';
@@ -134,6 +135,12 @@ class App extends PureComponent {
             <GenreQuestionScreenWrapped
               question={questions[0]}
               onAnswer={() => {}}
+            />
+          </Route>
+          <Route exact path="/auth">
+            <AuthScreen
+              onReplayButtonClick={() => {}}
+              onSubmit={() => {}}
             />
           </Route>
         </Switch>

@@ -1,5 +1,5 @@
 import {extend} from '../../common/utils';
-import {GameType} from '../../common/consts';
+import {GameType, START_STEP} from '../../common/consts';
 
 const initialState = {
   mistakes: 0,
@@ -8,6 +8,7 @@ const initialState = {
 };
 
 const ActionType = {
+  GO_TO_WELCOME: `GO_TO_WELCOME`,
   INCREMENT_MISTAKES: `INCREMENT_MISTAKES`,
   INCREMENT_STEP: `INCREMENT_STEP`,
   RESET: `RESET`,
@@ -53,6 +54,13 @@ const ActionCreator = {
       payload: null,
     };
   },
+
+  goToWelcome: () => {
+    return {
+      type: ActionType.GO_TO_WELCOME,
+      payload: null,
+    };
+  },
 };
 
 const reducer = (state = initialState, action) => {
@@ -70,6 +78,11 @@ const reducer = (state = initialState, action) => {
     case ActionType.RESET:
       return extend(initialState, {
         step: 0,
+      });
+
+    case ActionType.GO_TO_WELCOME:
+      return extend(initialState, {
+        step: START_STEP,
       });
   }
 

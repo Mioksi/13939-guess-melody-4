@@ -3,7 +3,7 @@ import * as renderer from 'react-test-renderer';
 
 import withAudio from './with-audio';
 
-import {noop} from '../../common/utils'
+import {noop} from '../../common/utils';
 
 interface MockComponentProps {
   children: React.ReactNode;

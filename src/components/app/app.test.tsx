@@ -61,19 +61,19 @@ describe(`Render App`, () => {
 
     const tree = renderer
       .create(
-        <Provider store={store}>
-          <App
-            authorizationStatus={AuthorizationStatus.NO_AUTH}
-            login={noop}
-            maxMistakes={3}
-            mistakes={0}
-            questions={questions}
-            onUserAnswer={noop}
-            onWelcomeButtonClick={noop}
-            resetGame={noop}
-            step={-1}
-          />
-        </Provider>
+          <Provider store={store}>
+            <App
+              authorizationStatus={AuthorizationStatus.NO_AUTH}
+              login={noop}
+              maxMistakes={3}
+              mistakes={0}
+              questions={questions}
+              onUserAnswer={noop}
+              onWelcomeButtonClick={noop}
+              resetGame={noop}
+              step={-1}
+            />
+          </Provider>
       ).toJSON();
 
     expect(tree).toMatchSnapshot();

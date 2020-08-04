@@ -4,7 +4,7 @@ import {IArtistQuestionScreenProps} from './types';
 
 const ArtistQuestionScreen: React.FunctionComponent<IArtistQuestionScreenProps> = (props: IArtistQuestionScreenProps) => {
   const {onAnswer, question, renderPlayer} = props;
-  const {answers, song,} = question;
+  const {answers, song} = question;
 
   const handleAnswerChange = (answer) => {
     return (evt) => {

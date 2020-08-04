@@ -6,7 +6,7 @@ import withUserAnswer from './with-user-answer';
 
 import {GameType, QuestionGenre} from '../../types';
 
-import {noop} from '../../common/utils'
+import {noop} from '../../common/utils';
 
 configure({adapter: new Adapter()});
 

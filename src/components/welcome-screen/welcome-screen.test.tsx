@@ -3,7 +3,7 @@ import * as renderer from 'react-test-renderer';
 
 import WelcomeScreen from './welcome-screen';
 import {Settings} from '../../common/consts';
-import {noop} from '../../common/utils'
+import {noop} from '../../common/utils';
 
 it(`Should WelcomeScreen render correctly`, () => {
   const tree = renderer

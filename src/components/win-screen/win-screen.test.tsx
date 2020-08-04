@@ -6,7 +6,7 @@ import WinScreen from './win-screen';
 
 import history from '../../history';
 
-import {noop} from '../../common/utils'
+import {noop} from '../../common/utils';
 
 describe(`Should WinScreen render correctly`, () => {
   describe(`With 3 questions`, () => {

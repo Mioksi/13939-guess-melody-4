@@ -31,7 +31,7 @@ it(`GenreQuestionScreen is rendered correctly`, () => {
       question={question}
       onAnswer={noop}
       renderPlayer={() => null}
-      onChange={() => {}}
+      onChange={noop}
       userAnswers={[false, false, false, false]}
     />
   ), {

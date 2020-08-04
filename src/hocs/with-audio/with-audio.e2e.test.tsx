@@ -3,16 +3,16 @@ import {configure, mount} from 'enzyme';
 import * as Adapter from 'enzyme-adapter-react-16';
 import withAudio from './with-audio';
 
-import {noop} from '../../common/utils'
+import {noop} from '../../common/utils';
 
-export interface IPlayerProps {
+export interface PlayerProps {
   children: React.ReactNode;
   onPlayButtonClick: () => void;
 }
 
 configure({adapter: new Adapter()});
 
-const Player = (props: IPlayerProps) => {
+const Player = (props: PlayerProps) => {
   const {onPlayButtonClick, children} = props;
   return (
     <div>

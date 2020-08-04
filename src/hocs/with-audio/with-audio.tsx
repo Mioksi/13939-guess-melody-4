@@ -1,12 +1,15 @@
-import React, {PureComponent, createRef} from 'react';
-import PropTypes from 'prop-types';
+import * as React from "react";
+
+import {IWithAudioProps, IWithAudioState} from './types';
 
 const withAudio = (Component) => {
-  class WithAudio extends PureComponent {
+  class WithAudio extends React.PureComponent<IWithAudioProps, IWithAudioState> {
+    private readonly audioRef: React.RefObject<HTMLAudioElement>;
+
     constructor(props) {
       super(props);
 
-      this._audioRef = createRef();
+      this.audioRef = React.createRef();
 
       this.state = {
         progress: 0,
@@ -19,7 +22,7 @@ const withAudio = (Component) => {
 
     componentDidMount() {
       const {src} = this.props;
-      const audio = this._audioRef.current;
+      const audio = this.audioRef.current;
 
       if (audio) {
         audio.src = src;
@@ -32,7 +35,7 @@ const withAudio = (Component) => {
     }
 
     componentDidUpdate() {
-      const audio = this._audioRef.current;
+      const audio = this.audioRef.current;
 
       if (audio) {
         if (this.state.isPlaying) {
@@ -44,7 +47,7 @@ const withAudio = (Component) => {
     }
 
     componentWillUnmount() {
-      const audio = this._audioRef.current;
+      const audio = this.audioRef.current;
 
       if (audio) {
         audio.oncanplaythrough = null;
@@ -74,7 +77,7 @@ const withAudio = (Component) => {
     }
 
     _handleTimeUpdale() {
-      const audio = this._audioRef.current;
+      const audio = this.audioRef.current;
 
       this.setState({
         progress: Math.floor(audio.currentTime),
@@ -100,18 +103,12 @@ const withAudio = (Component) => {
           onPlayButtonClick={this._handlePlayButtonClick}
         >
           <audio
-            ref={this._audioRef}
+            ref={this.audioRef}
           />
         </Component>
       );
     }
   }
-
-  WithAudio.propTypes = {
-    isPlaying: PropTypes.bool.isRequired,
-    onPlayButtonClick: PropTypes.func.isRequired,
-    src: PropTypes.string.isRequired,
-  };
 
   return WithAudio;
 };

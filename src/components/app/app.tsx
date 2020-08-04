@@ -1,66 +1,45 @@
-import React, {PureComponent} from 'react';
+import * as React from 'react';
 import {Switch, Route, Router} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {ActionCreator} from '../../reducer/game/game';
-import PropTypes from 'prop-types';
 
 import {getStep, getMistakes, getMaxMistakes} from '../../reducer/game/selectors';
 import {getQuestions} from '../../reducer/data/selectors';
 import {getAuthorizationStatus} from '../../reducer/user/selectors';
 import {Operation as UserOperation} from '../../reducer/user/user';
 
-import ArtistQuestionScreen from '../artist-question-screen/artist-question-screen.jsx';
-import GameScreen from '../game-screen/game-screen.jsx';
-import GenreQuestionScreen from '../genre-question-screen/genre-question-screen.jsx';
-import GameOverScreen from '../game-over-screen/game-over-screen.jsx';
-import WinScreen from '../win-screen/win-screen.jsx';
-import WelcomeScreen from '../welcome-screen/welcome-screen.jsx';
-import AuthScreen from '../authorization-screen/auth-screen.jsx';
-import PrivateRoute from '../private-route/private-route.jsx';
+import ArtistQuestionScreen from '../artist-question-screen/artist-question-screen';
+import GameScreen from '../game-screen/game-screen';
+import GenreQuestionScreen from '../genre-question-screen/genre-question-screen';
+import GameOverScreen from '../game-over-screen/game-over-screen';
+import WinScreen from '../win-screen/win-screen';
+import WelcomeScreen from '../welcome-screen/welcome-screen';
+import AuthScreen from '../authorization-screen/auth-screen';
+import PrivateRoute from '../private-route/private-route';
 
 import withActivePlayer from '../../hocs/with-active-player/with-active-player';
 import withUserAnswer from '../../hocs/with-user-answer/with-user-answer';
 
 import history from '../../history';
 
-import {AuthorizationStatus, AppRoute, GameType, START_STEP} from '../../common/consts';
+import {AuthorizationStatus, AppRoute, START_STEP} from '../../common/consts';
+
+import {IAppProps} from './types';
+import {GameType} from '../../types';
 
 const GenreQuestionScreenWrapped = withActivePlayer(withUserAnswer(GenreQuestionScreen));
 const ArtistQuestionScreenWrapped = withActivePlayer(ArtistQuestionScreen);
 
-class App extends PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      step: START_STEP,
-    };
-
-    this._handleWelcomeButtonClick = this._handleWelcomeButtonClick.bind(this);
-    this._handleScreenChange = this._handleScreenChange.bind(this);
-  }
-
-  _handleWelcomeButtonClick() {
-    this.setState({
-      step: 0,
-    });
-  }
-
-  _handleScreenChange() {
-    this.setState((prevState) => ({
-      step: prevState.step + 1,
-    }));
-  }
-
+class App extends React.PureComponent<IAppProps> {
   _renderGameScreen() {
     const {
       authorizationStatus,
-      mistakes,
       maxMistakes,
+      mistakes,
       questions,
       onUserAnswer,
       onWelcomeButtonClick,
-      step
+      step,
     } = this.props;
     const question = questions[step];
 
@@ -158,18 +137,6 @@ class App extends PureComponent {
   }
 }
 
-App.propTypes = {
-  authorizationStatus: PropTypes.string.isRequired,
-  login: PropTypes.func.isRequired,
-  maxMistakes: PropTypes.number.isRequired,
-  questions: PropTypes.array.isRequired,
-  onUserAnswer: PropTypes.func.isRequired,
-  onWelcomeButtonClick: PropTypes.func.isRequired,
-  step: PropTypes.number.isRequired,
-  mistakes: PropTypes.number.isRequired,
-  resetGame: PropTypes.func.isRequired,
-};
-
 const mapStateToProps = (state) => ({
   authorizationStatus: getAuthorizationStatus(state),
   step: getStep(state),
@@ -193,6 +160,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(ActionCreator.resetGame());
   },
 });
+
 
 export {App};
 export default connect(mapStateToProps, mapDispatchToProps)(App);

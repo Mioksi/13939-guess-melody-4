@@ -1,5 +1,6 @@
 import {extend} from '../../common/utils';
-import {GameType, START_STEP} from '../../common/consts';
+import {START_STEP} from '../../common/consts';
+import {GameType} from '../../types';
 
 const initialState = {
   mistakes: 0,

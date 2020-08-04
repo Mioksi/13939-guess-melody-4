@@ -1,12 +1,19 @@
-import React, {PureComponent} from 'react';
+import * as React from 'react';
+import {Subtract} from 'utility-types';
 
-import Player from '../../components/audio-player/audio-player.jsx';
+import Player from '../../components/audio-player/audio-player';
 import withAudio from '../with-audio/with-audio';
+
+import {IWithActivePlayerInjectingProps, IWithActivePlayerState} from './types';
 
 const AudioPlayer = withAudio(Player);
 
 const withActivePlayer = (Component) => {
-  class WithActivePlayer extends PureComponent {
+  type P = React.ComponentProps<typeof Component>;
+
+  type T = Subtract<P, IWithActivePlayerInjectingProps>;
+
+  class WithActivePlayer extends React.PureComponent<T, IWithActivePlayerState> {
     constructor(props) {
       super(props);
 

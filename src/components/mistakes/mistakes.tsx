@@ -1,7 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
 
-const Mistakes = (props) => {
+import {IMistakesProps} from './types';
+
+const Mistakes: React.FunctionComponent<IMistakesProps> = (props: IMistakesProps) => {
   const {count} = props;
 
   const mistakes = new Array(count).fill(``);
@@ -15,10 +16,6 @@ const Mistakes = (props) => {
       {renderMistakes()}
     </div>
   );
-};
-
-Mistakes.propTypes = {
-  count: PropTypes.number.isRequired,
 };
 
 export default Mistakes;

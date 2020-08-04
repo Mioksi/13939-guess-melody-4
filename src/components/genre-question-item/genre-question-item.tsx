@@ -1,15 +1,14 @@
-import React, {PureComponent} from "react";
-import PropTypes from "prop-types";
+import * as React from 'react';
+import {IGenreQuestionItemProps} from './types';
 
-
-class GenreQuestionItem extends PureComponent {
+class GenreQuestionItem extends React.PureComponent<IGenreQuestionItemProps> {
   constructor(props) {
     super(props);
 
-    this.handleChande = this.handleChande.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChande(evt) {
+  handleChange(evt) {
     const {id, onChange} = this.props;
     const value = evt.target.checked;
 
@@ -27,7 +26,7 @@ class GenreQuestionItem extends PureComponent {
           <input className="game__input visually-hidden" type="checkbox" name="answer" value={answerId}
             id={answerId}
             checked={userAnswer}
-            onChange={this.handleChande}
+            onChange={this.handleChange}
           />
           <label className="game__check" htmlFor={answerId}>Отметить</label>
         </div>
@@ -35,17 +34,5 @@ class GenreQuestionItem extends PureComponent {
     );
   }
 }
-
-GenreQuestionItem.propTypes = {
-  answer: PropTypes.shape({
-    src: PropTypes.string.isRequired,
-    genre: PropTypes.string.isRequired,
-  }).isRequired,
-  id: PropTypes.number.isRequired,
-  onChange: PropTypes.func.isRequired,
-  renderPlayer: PropTypes.func.isRequired,
-  userAnswer: PropTypes.bool.isRequired,
-};
-
 
 export default GenreQuestionItem;

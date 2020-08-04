@@ -1,14 +1,14 @@
-import React from 'react';
+import * as React from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
-import PropTypes from 'prop-types';
 
-import Mistakes from '../mistakes/mistakes.jsx';
+import Mistakes from '../mistakes/mistakes';
 
 import {getMistakes} from '../../reducer/game/selectors';
 import {ActionCreator} from '../../reducer/game/game';
 
-import {GameType, AppRoute} from '../../common/consts';
+import {AppRoute} from '../../common/consts';
+import {IGameScreenProps} from './types';
 
 const timerStyle = {
   filter: `url(#blur)`,
@@ -16,7 +16,9 @@ const timerStyle = {
   transformOrigin: `center`
 };
 
-const GameScreen = ({type, children, mistakes, goToWelcome}) => {
+const GameScreen: React.FunctionComponent<IGameScreenProps> = (props: IGameScreenProps) => {
+  const {type, children, goToWelcome, mistakes} = props;
+
   const gameType = `game game--${type}`;
 
   return (
@@ -42,16 +44,6 @@ const GameScreen = ({type, children, mistakes, goToWelcome}) => {
       {children}
     </section>
   );
-};
-
-GameScreen.propTypes = {
-  type: PropTypes.oneOf([GameType.ARTIST, GameType.GENRE]).isRequired,
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
-  ]).isRequired,
-  goToWelcome: PropTypes.func.isRequired,
-  mistakes: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => ({

@@ -1,7 +1,8 @@
-import React, {PureComponent} from "react";
-import PropTypes from 'prop-types';
+import * as React from "react";
 
-export default class AudioPlayer extends PureComponent {
+import {IAudioPlayerProps} from './types';
+
+class AudioPlayer extends React.PureComponent<IAudioPlayerProps> {
   render() {
     const {isLoading, isPlaying, onPlayButtonClick, children} = this.props;
     const trackButton = `track__button track__button--${isPlaying ? `pause` : `play`}`;
@@ -22,12 +23,4 @@ export default class AudioPlayer extends PureComponent {
   }
 }
 
-AudioPlayer.propTypes = {
-  isLoading: PropTypes.bool.isRequired,
-  isPlaying: PropTypes.bool.isRequired,
-  onPlayButtonClick: PropTypes.func.isRequired,
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
-  ]).isRequired,
-};
+export default AudioPlayer;

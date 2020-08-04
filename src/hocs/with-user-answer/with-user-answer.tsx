@@ -1,11 +1,13 @@
-import React, {PureComponent} from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import {Subtract} from "utility-types";
 
-import {GameType} from '../../common/consts';
-
+import {IWithUserAnswerInjectedProps, IWithUserAnswerProps, IWithUserAnswerState} from './types';
 
 const withUserAnswer = (Component) => {
-  class WithUserAnswer extends PureComponent {
+  type P = React.ComponentProps<typeof Component>;
+  type T = IWithUserAnswerProps & Subtract<P, IWithUserAnswerInjectedProps>;
+
+  class WithUserAnswer extends React.PureComponent<T, IWithUserAnswerState> {
     constructor(props) {
       super(props);
 
@@ -48,19 +50,6 @@ const withUserAnswer = (Component) => {
       );
     }
   }
-
-  WithUserAnswer.propTypes = {
-    question: PropTypes.shape({
-      answers: PropTypes.arrayOf(PropTypes.shape({
-        src: PropTypes.string.isRequired,
-        genre: PropTypes.string.isRequired,
-      })).isRequired,
-      genre: PropTypes.string.isRequired,
-      type: PropTypes.oneOf([GameType.ARTIST, GameType.GENRE]).isRequired,
-    }).isRequired,
-    onAnswer: PropTypes.func.isRequired,
-  };
-
 
   return WithUserAnswer;
 };

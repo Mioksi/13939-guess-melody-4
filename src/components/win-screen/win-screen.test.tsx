@@ -1,10 +1,12 @@
-import React from 'react';
+import * as React from 'react';
 import {Router} from 'react-router-dom';
-import renderer from 'react-test-renderer';
+import * as renderer from 'react-test-renderer';
+
+import WinScreen from './win-screen';
 
 import history from '../../history';
 
-import WinScreen from './win-screen.jsx';
+import {noop} from '../../common/utils'
 
 describe(`Should WinScreen render correctly`, () => {
   describe(`With 3 questions`, () => {
@@ -17,7 +19,7 @@ describe(`Should WinScreen render correctly`, () => {
               <WinScreen
                 questionsCount={3}
                 mistakesCount={0}
-                onReplayButtonClick={() => {}}
+                onReplayButtonClick={noop}
               />
             </Router>
         )
@@ -35,7 +37,7 @@ describe(`Should WinScreen render correctly`, () => {
               <WinScreen
                 questionsCount={3}
                 mistakesCount={1}
-                onReplayButtonClick={() => {}}
+                onReplayButtonClick={noop}
               />
             </Router>
         )
@@ -55,7 +57,7 @@ describe(`Should WinScreen render correctly`, () => {
               <WinScreen
                 questionsCount={2}
                 mistakesCount={0}
-                onReplayButtonClick={() => {}}
+                onReplayButtonClick={noop}
               />
             </Router>
         )
@@ -73,7 +75,7 @@ describe(`Should WinScreen render correctly`, () => {
               <WinScreen
                 questionsCount={2}
                 mistakesCount={1}
-                onReplayButtonClick={() => {}}
+                onReplayButtonClick={noop}
               />
             </Router>
         )

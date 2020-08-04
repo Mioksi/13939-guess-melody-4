@@ -6,6 +6,6 @@ export interface IWithAudioProps {
 
 export interface IWithAudioState {
   isLoading: boolean;
-  isPlaying: boolean;
+  isPlayingReal: boolean;
   progress: number;
 }

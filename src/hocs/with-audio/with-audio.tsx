@@ -14,7 +14,7 @@ const withAudio = (Component) => {
       this.state = {
         progress: 0,
         isLoading: true,
-        isPlaying: props.isPlaying,
+        isPlayingReal: props.isPlaying,
       };
 
       this._handlePlayButtonClick = this._handlePlayButtonClick.bind(this);
@@ -38,7 +38,7 @@ const withAudio = (Component) => {
       const audio = this.audioRef.current;
 
       if (audio) {
-        if (this.state.isPlaying) {
+        if (this.props.isPlaying) {
           audio.play();
         } else {
           audio.pause();
@@ -66,13 +66,13 @@ const withAudio = (Component) => {
 
     _handlePlay() {
       this.setState({
-        isPlaying: true,
+        isPlayingReal: true,
       });
     }
 
     _handlePause() {
       this.setState({
-        isPlaying: false,
+        isPlayingReal: false,
       });
     }
 
@@ -86,20 +86,21 @@ const withAudio = (Component) => {
 
     _handlePlayButtonClick() {
       const {onPlayButtonClick} = this.props;
+      const {isPlayingReal} = this.state;
 
-      this.setState({isPlaying: !this.state.isPlaying});
+      this.setState({isPlayingReal: !isPlayingReal});
 
       onPlayButtonClick();
     }
 
     render() {
-      const {isLoading, isPlaying} = this.state;
+      const {isLoading, isPlayingReal} = this.state;
 
       return (
         <Component
           {...this.props}
           isLoading={isLoading}
-          isPlaying={isPlaying}
+          isPlaying={isPlayingReal}
           onPlayButtonClick={this._handlePlayButtonClick}
         >
           <audio

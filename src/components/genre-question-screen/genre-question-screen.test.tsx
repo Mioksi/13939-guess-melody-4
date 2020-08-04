@@ -1,10 +1,14 @@
-import React from 'react';
-import renderer from 'react-test-renderer';
+import * as React from 'react';
+import * as renderer from 'react-test-renderer';
 
-import GenreQuestionScreen from './genre-question-screen.jsx';
+import GenreQuestionScreen from './genre-question-screen';
 
-const question = {
-  type: `genre`,
+import {GameType, QuestionGenre} from '../../types';
+
+import {noop} from '../../common/utils';
+
+const question: QuestionGenre = {
+  type: GameType.GENRE,
   genre: `rock`,
   answers: [{
     src: `https://upload.wikimedia.org/wikipedia/commons/4/4e/BWV_543-fugue.ogg`,
@@ -25,8 +29,8 @@ it(`GenreQuestionScreen is rendered correctly`, () => {
   const tree = renderer.create((
     <GenreQuestionScreen
       question={question}
-      onAnswer={() => {}}
-      renderPlayer={() => {}}
+      onAnswer={noop}
+      renderPlayer={() => null}
       onChange={() => {}}
       userAnswers={[false, false, false, false]}
     />

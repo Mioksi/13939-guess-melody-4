@@ -1,10 +1,13 @@
-import React from 'react';
-import renderer from 'react-test-renderer';
+import * as React from 'react';
+import * as renderer from 'react-test-renderer';
 
-import ArtistQuestionScreen from './artist-question-screen.jsx';
+import {GameType, QuestionArtist} from '../../types';
 
-const question = {
-  type: `artist`,
+import ArtistQuestionScreen from './artist-question-screen';
+import {noop} from '../../common/utils';
+
+const question: QuestionArtist = {
+  type: GameType.ARTIST,
   song: {
     artist: `Jim Beam`,
     src: `https://upload.wikimedia.org/wikipedia/commons/4/4e/BWV_543-fugue.ogg`,
@@ -25,8 +28,8 @@ it(`ArtistQuestionScreen is rendered correctly`, () => {
   const tree = renderer.create(
       <ArtistQuestionScreen
         question={question}
-        onAnswer={() => {}}
-        renderPlayer={() => {}}
+        onAnswer={noop}
+        renderPlayer={() => null}
       />, {
         createNodeMock: () => {
           return {};

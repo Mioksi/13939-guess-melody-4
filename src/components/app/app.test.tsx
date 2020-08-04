@@ -1,18 +1,20 @@
-import React from 'react';
-import renderer from 'react-test-renderer';
+import * as React from 'react';
+import * as renderer from 'react-test-renderer';
 import {Provider} from 'react-redux';
 import configureStore from 'redux-mock-store';
 
-import {App} from './app.jsx';
+import {App} from './app';
 
 import NameSpace from '../../reducer/name-space';
 import {AuthorizationStatus, Settings} from '../../common/consts';
+import {GameType, QuestionArtist, QuestionGenre} from '../../types';
+import {noop} from '../../common/utils';
 
 const mockStore = configureStore([]);
 
-const questions = [
+const questions: (QuestionArtist|QuestionGenre)[] = [
   {
-    type: `genre`,
+    type: GameType.GENRE,
     genre: `rock`,
     answers: [{
       src: `https://upload.wikimedia.org/wikipedia/commons/4/4e/BWV_543-fugue.ogg`,
@@ -28,7 +30,7 @@ const questions = [
       genre: `rock`,
     }],
   }, {
-    type: `artist`,
+    type: GameType.ARTIST,
     song: {
       artist: `Jim Beam`,
       src: `https://upload.wikimedia.org/wikipedia/commons/4/4e/BWV_543-fugue.ogg`,
@@ -59,21 +61,20 @@ describe(`Render App`, () => {
 
     const tree = renderer
       .create(
-          <Provider store={store}>
-            <App
-              authorizationStatus={AuthorizationStatus.NO_AUTH}
-              login={() => {}}
-              mistakes={0}
-              maxMistakes={Settings.ERRORS_COUNT}
-              questions={questions}
-              resetGame={() => {}}
-              onUserAnswer={() => {}}
-              onWelcomeButtonClick={() => {}}
-              step={-1}
-            />
-          </Provider>
-      )
-      .toJSON();
+        <Provider store={store}>
+          <App
+            authorizationStatus={AuthorizationStatus.NO_AUTH}
+            login={noop}
+            maxMistakes={3}
+            mistakes={0}
+            questions={questions}
+            onUserAnswer={noop}
+            onWelcomeButtonClick={noop}
+            resetGame={noop}
+            step={-1}
+          />
+        </Provider>
+      ).toJSON();
 
     expect(tree).toMatchSnapshot();
   });
@@ -90,13 +91,13 @@ describe(`Render App`, () => {
           <Provider store={store}>
             <App
               authorizationStatus={AuthorizationStatus.NO_AUTH}
-              login={() => {}}
+              login={noop}
               mistakes={0}
               maxMistakes={Settings.ERRORS_COUNT}
               questions={questions}
-              resetGame={() => {}}
-              onUserAnswer={() => {}}
-              onWelcomeButtonClick={() => {}}
+              resetGame={noop}
+              onUserAnswer={noop}
+              onWelcomeButtonClick={noop}
               step={1}
             />
           </Provider>, {
@@ -121,13 +122,13 @@ describe(`Render App`, () => {
           <Provider store={store}>
             <App
               authorizationStatus={AuthorizationStatus.NO_AUTH}
-              login={() => {}}
+              login={noop}
               mistakes={0}
               maxMistakes={Settings.ERRORS_COUNT}
               questions={questions}
-              resetGame={() => {}}
-              onUserAnswer={() => {}}
-              onWelcomeButtonClick={() => {}}
+              resetGame={noop}
+              onUserAnswer={noop}
+              onWelcomeButtonClick={noop}
               step={1}
             />
           </Provider>, {
@@ -152,13 +153,13 @@ describe(`Render App`, () => {
           <Provider store={store}>
             <App
               authorizationStatus={AuthorizationStatus.NO_AUTH}
-              login={() => {}}
+              login={noop}
               maxMistakes={3}
               mistakes={3}
               questions={questions}
-              resetGame={() => {}}
-              onUserAnswer={() => {}}
-              onWelcomeButtonClick={() => {}}
+              resetGame={noop}
+              onUserAnswer={noop}
+              onWelcomeButtonClick={noop}
               step={1}
             />
           </Provider>, {
@@ -186,13 +187,13 @@ describe(`Render App`, () => {
           <Provider store={store}>
             <App
               authorizationStatus={AuthorizationStatus.NO_AUTH}
-              login={() => {}}
+              login={noop}
               maxMistakes={3}
               mistakes={0}
               questions={questions}
-              resetGame={() => {}}
-              onUserAnswer={() => {}}
-              onWelcomeButtonClick={() => {}}
+              resetGame={noop}
+              onUserAnswer={noop}
+              onWelcomeButtonClick={noop}
               step={3}
             />
           </Provider>, {
@@ -220,13 +221,13 @@ describe(`Render App`, () => {
           <Provider store={store}>
             <App
               authorizationStatus={AuthorizationStatus.NO_AUTH}
-              login={() => {}}
+              login={noop}
               maxMistakes={3}
               mistakes={0}
               questions={questions}
-              onUserAnswer={() => {}}
-              onWelcomeButtonClick={() => {}}
-              resetGame={() => {}}
+              onUserAnswer={noop}
+              onWelcomeButtonClick={noop}
+              resetGame={noop}
               step={3}
             />
           </Provider>, {

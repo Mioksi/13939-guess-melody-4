@@ -14,7 +14,7 @@ import GenreQuestionScreen from '../genre-question-screen/genre-question-screen'
 import GameOverScreen from '../game-over-screen/game-over-screen';
 import WinScreen from '../win-screen/win-screen';
 import WelcomeScreen from '../welcome-screen/welcome-screen';
-import AuthScreen from '../authorization-screen/auth-screen';
+import AuthScreen from '../auth-screen/auth-screen';
 import PrivateRoute from '../private-route/private-route';
 
 import withActivePlayer from '../../hocs/with-active-player/with-active-player';

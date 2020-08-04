@@ -1,12 +1,12 @@
-import React from 'react';
-import renderer from 'react-test-renderer';
+import * as React from 'react';
+import * as renderer from 'react-test-renderer';
 import {Router} from 'react-router-dom';
 
-import {GameScreen} from './game-screen.jsx';
-import {GameType} from '../../common/consts';
-import history from '../../history';
+import {GameScreen} from './game-screen';
 
-const noop = () => {};
+import {GameType} from '../../types';
+import history from '../../history';
+import {noop} from '../../common/utils';
 
 const children = <div className="children-component" />;
 

@@ -3,11 +3,6 @@ export const TIMEOUT = 5000;
 
 export const URL = `https://4.react.pages.academy/guess-melody`;
 
-export const GameType = {
-  ARTIST: `artist`,
-  GENRE: `genre`,
-};
-
 export const Settings = {
   ERRORS_COUNT: 3
 };

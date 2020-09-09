@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Switch, Route, Router} from 'react-router-dom';
+import {Switch, Route, HashRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {ActionCreator} from '../../reducer/game/game';
 
@@ -20,8 +20,6 @@ import PrivateRoute from '../private-route/private-route';
 import withActivePlayer from '../../hocs/with-active-player/with-active-player';
 import withUserAnswer from '../../hocs/with-user-answer/with-user-answer';
 
-import history from '../../history';
-
 import {AuthorizationStatus, AppRoute, START_STEP} from '../../common/consts';
 
 import {IAppProps} from './types';
@@ -31,7 +29,7 @@ const GenreQuestionScreenWrapped = withActivePlayer(withUserAnswer(GenreQuestion
 const ArtistQuestionScreenWrapped = withActivePlayer(ArtistQuestionScreen);
 
 class App extends React.PureComponent<IAppProps> {
-  _renderGameScreen() {
+  _renderGameScreen(routeProps) {
     const {
       authorizationStatus,
       maxMistakes,
@@ -53,14 +51,14 @@ class App extends React.PureComponent<IAppProps> {
     }
 
     if (mistakes >= maxMistakes) {
-      return history.push(AppRoute.LOSE);
+      return routeProps.history.push(AppRoute.LOSE);
     }
 
     if (step >= questions.length) {
       if (authorizationStatus === AuthorizationStatus.AUTH) {
-        return history.push(AppRoute.RESULT);
+        return routeProps.history.push(AppRoute.RESULT);
       } else if (authorizationStatus === AuthorizationStatus.NO_AUTH) {
-        return history.push(AppRoute.LOGIN);
+        return routeProps.history.push(AppRoute.LOGIN);
       }
 
       return null;
@@ -100,12 +98,15 @@ class App extends React.PureComponent<IAppProps> {
     const {questions, mistakes, resetGame, login} = this.props;
 
     return (
-      <Router
-        history={history}
-      >
+      <HashRouter>
         <Switch>
-          <Route exact path={AppRoute.ROOT}>
-            {this._renderGameScreen()}
+          <Route
+            exact
+            path={AppRoute.ROOT}
+            render={(routeProps) => {
+              return this._renderGameScreen(routeProps);
+            }}
+          >
           </Route>
           <Route exact path={AppRoute.LOGIN}>
             <AuthScreen
@@ -132,7 +133,7 @@ class App extends React.PureComponent<IAppProps> {
             }}
           />
         </Switch>
-      </Router>
+      </HashRouter>
     );
   }
 }

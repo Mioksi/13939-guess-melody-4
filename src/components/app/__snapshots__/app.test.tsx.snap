@@ -9,7 +9,7 @@ exports[`Render App Render ArtistQuestionScreen 1`] = `
   >
     <a
       className="game__back"
-      href="/"
+      href="#/"
       onClick={[Function]}
     >
       <span
@@ -166,10 +166,10 @@ exports[`Render App Render ArtistQuestionScreen 1`] = `
 
 exports[`Render App Render AuthScreen 1`] = `
 <section
-  className="login"
+  className="result"
 >
   <div
-    className="login__logo"
+    className="result__logo"
   >
     <img
       alt="Угадай мелодию"
@@ -179,71 +179,23 @@ exports[`Render App Render AuthScreen 1`] = `
     />
   </div>
   <h2
-    className="login__title"
+    className="result__title"
   >
-    Вы настоящий меломан!
+    Какая жалость!
   </h2>
   <p
-    className="login__text"
+    className="result__total result__total--fail"
   >
-    Хотите узнать свой результат? Представьтесь!
+    У вас закончились все попытки. Ничего, повезёт в следующий раз!
   </p>
-  <form
-    action=""
-    className="login__form"
-    onSubmit={[Function]}
-  >
-    <p
-      className="login__field"
-    >
-      <label
-        className="login__label"
-        htmlFor="name"
-      >
-        Логин
-      </label>
-      <input
-        className="login__input"
-        id="name"
-        name="name"
-        type="text"
-      />
-    </p>
-    <p
-      className="login__field"
-    >
-      <label
-        className="login__label"
-        htmlFor="password"
-      >
-        Пароль
-      </label>
-      <input
-        className="login__input"
-        id="password"
-        name="password"
-        type="text"
-      />
-      <span
-        className="login__error"
-      >
-        Неверный пароль
-      </span>
-    </p>
-    <button
-      className="login__button button"
-      type="submit"
-    >
-      Войти
-    </button>
-  </form>
-  <button
+  <a
     className="replay"
+    href="#/"
     onClick={[Function]}
     type="button"
   >
-    Сыграть ещё раз
-  </button>
+    Попробовать ещё раз
+  </a>
 </section>
 `;
 
@@ -273,7 +225,7 @@ exports[`Render App Render GameOverScreen 1`] = `
   </p>
   <a
     className="replay"
-    href="/"
+    href="#/"
     onClick={[Function]}
     type="button"
   >
@@ -291,7 +243,7 @@ exports[`Render App Render GenreQuestionScreen 1`] = `
   >
     <a
       className="game__back"
-      href="/"
+      href="#/"
       onClick={[Function]}
     >
       <span
@@ -502,10 +454,10 @@ exports[`Render App Render WelcomeScreen 1`] = `
 
 exports[`Render App Render WinScreen 1`] = `
 <section
-  className="login"
+  className="result"
 >
   <div
-    className="login__logo"
+    className="result__logo"
   >
     <img
       alt="Угадай мелодию"
@@ -515,70 +467,22 @@ exports[`Render App Render WinScreen 1`] = `
     />
   </div>
   <h2
-    className="login__title"
+    className="result__title"
   >
-    Вы настоящий меломан!
+    Какая жалость!
   </h2>
   <p
-    className="login__text"
+    className="result__total result__total--fail"
   >
-    Хотите узнать свой результат? Представьтесь!
+    У вас закончились все попытки. Ничего, повезёт в следующий раз!
   </p>
-  <form
-    action=""
-    className="login__form"
-    onSubmit={[Function]}
-  >
-    <p
-      className="login__field"
-    >
-      <label
-        className="login__label"
-        htmlFor="name"
-      >
-        Логин
-      </label>
-      <input
-        className="login__input"
-        id="name"
-        name="name"
-        type="text"
-      />
-    </p>
-    <p
-      className="login__field"
-    >
-      <label
-        className="login__label"
-        htmlFor="password"
-      >
-        Пароль
-      </label>
-      <input
-        className="login__input"
-        id="password"
-        name="password"
-        type="text"
-      />
-      <span
-        className="login__error"
-      >
-        Неверный пароль
-      </span>
-    </p>
-    <button
-      className="login__button button"
-      type="submit"
-    >
-      Войти
-    </button>
-  </form>
-  <button
+  <a
     className="replay"
+    href="#/"
     onClick={[Function]}
     type="button"
   >
-    Сыграть ещё раз
-  </button>
+    Попробовать ещё раз
+  </a>
 </section>
 `;
